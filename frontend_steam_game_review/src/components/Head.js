@@ -10,7 +10,7 @@ const Head = () => {
       <LogoTextContent>
         <LogoImg
           onClick={() => {
-            navigate(`/Detail`);
+            navigate(`/`);
           }}
         >
           Logo

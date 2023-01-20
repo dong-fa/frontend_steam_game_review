@@ -1,78 +1,82 @@
 import React from "react";
 import styled from "styled-components";
-import bear1 from "../../img/농담곰018.jpg";
-import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import SimpleSlider from "../../components/SimpleSlider";
+import { __getGameList } from "../../reduex/modules/mainSlice";
+
 const Main = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [currentTab, setCurrentTab] = useState(0);
 
-  const menuArr = [
-    {
-      name: "Genre1",
-      img: bear1,
-      title: "농담곰 귀엽죠",
-    },
-    {
-      name: "Genre2",
-      img: bear1,
-      title: "농담곰 짱이죠",
-    },
-    {
-      name: "Genre3",
-      img: bear1,
-      title: "농담곰 짱짱짱",
-    },
-  ];
+  //게임장르 별 탭구성
+  const genre = ["ALL", "RPG", "FPS", "ACTION", "SPORTS"];
+  const { gameList } = useSelector((state) => state.mainSlice);
 
-  const selectMenuHandler = (index) => {
-    setCurrentTab(index);
+  //탭을 눌렀을시 구성할 리스트상태
+  const [newList, setNewList] = useState(gameList);
+
+  //탭을 눌렀을 때 내용변화
+  const selectMenuHandler = (e) => {
+    if (e.target.id === "ALL") {
+      console.log(e.target.id);
+      setNewList(gameList);
+    } else {
+      console.log(e.target.id);
+      const newGameList = gameList.filter(
+        (genre) => genre.genre === e.target.id
+      );
+      setNewList(newGameList);
+    }
   };
+
+  useEffect(() => {
+    dispatch(__getGameList());
+  }, []);
+
+  useEffect(() => {
+    setNewList(gameList);
+  }, [gameList]);
 
   return (
     <>
       <Container>
         <ImgContainer>
-          <ImgSlice>
-            <Button> 오 </Button>
-            <ImgBox
-              onClick={() => {
-                navigate(`/Detail`);
-              }}
-            >
-              <Img src={bear1} alt="img" />
-            </ImgBox>
-            <Button> 왼 </Button>
-          </ImgSlice>
+          <TitleText>추천게임</TitleText>
+          <SimpleSlider img={gameList} />
         </ImgContainer>
+
         <ContentContainer>
+          <TabMenu>
+            {genre.map((content, index) => {
+              return (
+                <Menu key={index} id={content} onClick={selectMenuHandler}>
+                  {content}
+                </Menu>
+              );
+            })}
+          </TabMenu>
           <ContentBox>
             <div>
-              <TabMenu>
-                {menuArr.map((ele, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className={
-                        currentTab === index ? "submenu focused" : "submenu"
-                      }
-                      onClick={() => selectMenuHandler(index)}
-                    >
-                      {ele.name}
-                    </li>
-                  );
-                })}
-              </TabMenu>
-              <Desc
-                onClick={() => {
-                  navigate(`/Detail`);
-                }}
-              >
-                <ContentImgBox>
-                  <ContentImg src={menuArr[currentTab].img}></ContentImg>
-                </ContentImgBox>
-                <Title>{menuArr[currentTab].title}</Title>
-              </Desc>
+              {newList.map((content, index) => {
+                return (
+                  <Desc
+                    onClick={() => {
+                      //백 연결시 : /Detail/${content.postId}
+                      navigate(`/Detail/${content.id}`);
+                    }}
+                    key={index}
+                  >
+                    <ContentImgBox>
+                      {/* 백 연결시 : content.imageUrl */}
+                      <ContentImg src={content.gameImage}></ContentImg>
+                    </ContentImgBox>
+                    {/* 백 연결시 : content.title */}
+                    <Title>{content.gameName}</Title>
+                  </Desc>
+                );
+              })}
             </div>
           </ContentBox>
         </ContentContainer>
@@ -93,56 +97,65 @@ const Container = styled.div`
 `;
 
 const ImgContainer = styled.div`
+  margin-top: 25px;
   max-width: 100%;
   min-width: 20%;
 `;
 
-const ImgSlice = styled.div`
-  height: 400px;
-
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-
-  justify-content: center;
-`;
-
-const ImgBox = styled.div``;
-const Img = styled.img`
-  width: 850px;
-  height: 300px;
-`;
-
-const Button = styled.button`
-  height: 300px;
+const TitleText = styled.div`
+  color: white;
+  margin-bottom: 20px;
+  font-weight: 700;
 `;
 
 const ContentContainer = styled.div`
-  height: 80vh;
-  background-color: azure;
-
-  overflow: scroll;
+  height: 30%;
+  margin-top: 25px;
   background-color: #4e697d;
+
+  margin-bottom: 50px;
 `;
 
-const ContentBox = styled.div``;
+const ContentBox = styled.div`
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  height: 700px;
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+  }
+
+  height: 80%;
+
+`;
 
 const TabMenu = styled.ul`
-  background-color: #dcdcdc;
+  height: 35px;
   font-weight: bold;
   display: flex;
   flex-direction: row;
   justify-items: center;
   align-items: center;
   list-style: none;
-
-  .submenu {
-    width: 100% auto;
-    padding: 15px 10px;
+`;
+const Menu = styled.li`
+  margin-left: 15px;
+  padding: 5px;
+  &:hover {
     cursor: pointer;
+    background-color: #171a21;
+    color: white;
   }
 `;
-
 const Desc = styled.div`
   display: flex;
   background-color: #4e697d;

@@ -90,3 +90,13 @@ fabric.properties
 !.idea/runConfigurations
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all
+frontend_steam_game_review/db.json
+frontend_steam_game_review/db.json
+
+node_modules/.yarn-integrity
+yarn.lock
+
+frontend_steam_game_review/db.json
+
+frontend_steam_game_review/db.json
+

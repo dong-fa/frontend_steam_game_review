@@ -1,0 +1,124 @@
+{
+  "gameList": [
+    {
+      "id": 1,
+      "gameName": "game1",
+      "gameImage": "https://lwi.nexon.com/maplestory/common/media/artwork/artwork_114.jpg",
+      "gameGenre": "RPG"
+    },
+    {
+      "id": 2,
+      "gameName": "game2",
+      "gameImage": "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/ss_5478c9192023a3b3e438c030caa0809b62523587.600x338.jpg?t=1667006028",
+      "gameGenre": "RPG"
+    },
+    {
+      "id": 3,
+      "gameName": "game3",
+      "gameImage": "http://image.ff14.co.kr/patch/v6.2/img/v6.0/main_img1.png?c6494a23de8631940c14150285ed4157",
+      "gameGenre": "RPG"
+    },
+    {
+      "id": 4,
+      "gameName": "game4",
+      "gameImage": "https://t1.kakaocdn.net/gamepub/pub-img/pubg/promotion_banner/promotion_banner_pc_background_image_1670311284251_57.jpg",
+      "gameGenre": "FPS"
+    },
+    {
+      "id": 5,
+      "gameName": "game5",
+      "gameImage": "https://www.google.com/url?sa=i&url=http%3A%2F%2Fmonsterhunterworld.com%2Fkr%2F&psig=AOvVaw14YHy6au0oDfJkpitun5jG&ust=1674039655744000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCJCp1Ou5zvwCFQAAAAAdAAAAABAE",
+      "gameGenre": "Action"
+    }
+  ],
+  "comments": [
+    {
+      "postId": "2",
+      "comment": "게임2 코멘트3",
+      "id": 6
+    },
+    {
+      "postId": "3",
+      "comment": "ㅁㅇㅁㄴㅇㄴㅁㅇ",
+      "id": 10
+    },
+    {
+      "postId": "1",
+      "comment": "안녕하세요",
+      "id": 11
+    },
+    {
+      "postId": "1",
+      "comment": "asdasdasd",
+      "id": 12
+    },
+
+    {
+      "postId": "1",
+      "comment": "asdasdasdasd",
+
+      "id": 14
+    },
+    {
+      "postId": "1",
+      "comment": "안녕하세요",
+      "id": 15
+    },
+    {
+      "postId": "undefined",
+      "comment": "aaaa",
+      "id": 16
+    },
+  
+    {
+      "postId": "1",
+      "comment": "asdasdasd",
+      "id": 16
+    },
+    {
+      "postId": "1",
+      "comment": "ㄴㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "id": 17
+    },
+    {
+      "postId": "1",
+      "comment": "ㅁㄴㅇㅁㄴㅇㅁㅇㅁㄴㅇㅁㄴㅇ",
+      "id": 18
+    },
+    {
+      "postId": "1",
+      "comment": "ㄴㅁㅇㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "id": 19
+    },
+    {
+      "postId": "1",
+      "comment": "ㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "id": 20
+    },
+    {
+      "postId": "1",
+      "comment": "ㅁㄴㅇㅁㄴㅇㅁㄴㅇ",
+      "id": 21
+    },
+    {
+      "postId": "1",
+      "comment": "asdasdasdasd",
+      "id": 22
+    },
+    {
+      "postId": "1",
+      "comment": "asdasdasd",
+      "id": 23
+    },
+    {
+      "postId": "1",
+      "comment": "asdasdasd",
+      "id": 24
+    },
+    {
+      "postId": "1",
+      "comment": "asdasdsd",
+      "id": 25
+    }
+  ]
+}

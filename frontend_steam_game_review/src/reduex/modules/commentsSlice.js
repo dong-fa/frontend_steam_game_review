@@ -5,23 +5,27 @@ import axios from "axios"; // axios import 합니다.
 const initialState = {
   comments: [],
   comment: {
-    id: 0,
+    postId: 0,
     comment: "",
   },
   disabledToggle: false,
   isLoading: false,
   error: null,
 };
-
+const config = {
+  headers: {
+    Authorization: localStorage.getItem("token"),
+  },
+};
 export const __getComments = createAsyncThunk(
   "getComments",
   async (payload, thunkAPI) => {
-    console.log("겟 페이로드", payload);
+    //console.log("겟 페이로드", payload);
     try {
-      const data = await axios.get(
+      /*const data = await axios.get(
         `http://localhost:3001/comments?postId=${payload}`
-      ); //로컬용
-      // const data = await axiosInstance.get(`/detail/comment/${payload}`);
+      ); //로컬용*/
+      const data = await axiosInstance.get(`/detail/comment/${payload}`);
       // console.log("리듀서 겟 받기", data);
 
       return thunkAPI.fulfillWithValue(data.data);
@@ -36,11 +40,12 @@ export const __addComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("에드 페이로드", payload);
     try {
-      const data = await axios.post("http://localhost:3001/comments", payload); //로컬용
-      // const data = await axiosInstance.post(
-      //   `/detail/comment/${payload.postId}`,
-      //   payload
-      // );
+      // const data = await axios.post("http://localhost:3001/comments", payload); //로컬용
+      const data = await axiosInstance.post(
+        `/detail/comment/${payload.postId}`,
+        payload,
+        config
+      );
       // console.log(data);
       // console.log("코멘트 페이로드", payload);
       return thunkAPI.fulfillWithValue(data.data);
@@ -56,16 +61,22 @@ export const __deleteComment = createAsyncThunk(
   async (payload, thunkAPI) => {
     console.log("딜리트 페이로드", payload);
     try {
-      const data = await axios.delete(
-        `http://localhost:3001/comments/${payload}`
-      );
-      // // const data = await axiosInstance.delete(
-      // //   `/detail/comment/${payload.postId}/${payload.commentId}`
+      // const data = await axios.delete(
+      //   `http://localhost:3001/comments/${payload}`
       // );
+
+      const data = await axiosInstance.post(
+        `/detail/comment/${payload.postId}/${payload.commentId}`,
+        payload,
+        config
+      );
       console.log("딜리트데이터", data);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
-      console.log(error);
+      const errorObject = error.response.data;
+      if (errorObject.status === 400) {
+        alert(errorObject.message);
+      }
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -76,12 +87,23 @@ export const __updateCommentDetail = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const updateComment = payload.updateComment;
-      await axios.patch(
-        `http://localhost:3001/comments/${updateComment.id}`,
-        updateComment
+      // await axios.patch(
+      //   `http://localhost:3001/comments/${updateComment.id}`,
+      //   updateComment
+      // );
+      console.log(payload);
+      await axiosInstance.patch(
+        `/detail/comment/${updateComment.postId}/${updateComment.commentId}`,
+        updateComment,
+        config
       );
       return thunkAPI.fulfillWithValue(updateComment);
     } catch (error) {
+      const errorObject = error.response.data;
+      console.log(error.response.data.status);
+      if (errorObject.status === 400) {
+        return alert(errorObject.message);
+      }
       return thunkAPI.rejectWithValue(error);
     }
   }
@@ -123,6 +145,7 @@ export const commentsSlice = createSlice({
     },
     // delete 리듀서
     [__deleteComment.fulfilled]: (state, action) => {
+      state.isLoading = false;
       console.log(state.comments);
       const target = state.comments.findIndex(
         (comment) => comment.id === action.payload
@@ -133,7 +156,10 @@ export const commentsSlice = createSlice({
     [__deleteComment.pending]: (state) => {
       state.isLoading = true;
     },
-    [__deleteComment.rejected]: () => {},
+    [__deleteComment.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
 
     // update 리듀서
     [__updateCommentDetail.pending]: (state, action) => {
@@ -141,9 +167,20 @@ export const commentsSlice = createSlice({
     },
     [__updateCommentDetail.fulfilled]: (state, action) => {
       state.isLoading = false;
+      console.log(action.payload);
+      console.log(state.comments);
+      // state.comments = [...state.comments].map((comment) => {
+      //   if (comment.commentId === action.payload.commentId) {
+      //     const newComment = comment;
+      //     newComment.comment = action.payload.comment;
+      //     return newComment;
+      //   }
+      //   return comment;
+      // });
       const target = state.comments.findIndex(
-        (comment) => comment.id === action.payload.id
+        (comment) => comment.commentId === action.payload.commentId
       );
+      console.log(target);
       state.comments.splice(target, 1, action.payload);
     },
     [__updateCommentDetail.rejected]: (state, action) => {

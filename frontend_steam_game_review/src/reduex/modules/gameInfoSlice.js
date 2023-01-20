@@ -13,11 +13,12 @@ export const __getgames = createAsyncThunk(
   "getGames",
   async (payload, thunkAPI) => {
     try {
-      //백 연결시 const data = await axiosInstance.get(`/api/post/${payload}`);
-      const data = await axios.get(`http://localhost:3001/gameList/${payload}`);
+      //백 연결시
+      const data = await axiosInstance.get(`/api/post/${payload}`);
+      //const data = await axios.get(`http://localhost:3001/gameList/${payload}`);
       // console.log("겟게임 데이터", data);
       // console.log("겟게임 페이로드", payload);
-      console.log(data.data);
+      //console.log(data.data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
       console.log(error);
@@ -64,7 +65,7 @@ export const gameInfoSlice = createSlice({
     [__getgames.fulfilled]: (state, action) => {
       state.isLoading = false; // 네트워크 요청이 끝났으니, false로 변경합니다.
       state.gameList = action.payload;
-      console.log("풀필드", state.gameList);
+      //console.log("풀필드", state.gameList);
     },
     [__getgames.rejected]: (state, action) => {
       state.isLoading = false; // 에러가 발생했지만, 네트워크 요청이 끝났으니, false로 변경합니다.

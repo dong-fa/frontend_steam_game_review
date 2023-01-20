@@ -8,7 +8,7 @@ import {
   isDisabledToggle,
 } from "../../reduex/modules/commentsSlice";
 
-const CommentsCard = ({ comment, param }) => {
+const CommentsCard = ({ comment, postId }) => {
   const dispatch = useDispatch();
 
   //토큰여부로 댓글수정막기
@@ -16,7 +16,7 @@ const CommentsCard = ({ comment, param }) => {
 
   //수정이 활성화 될 시 다른 수정버튼 작동 막기
   const { disabledToggle } = useSelector((state) => state.comments);
-  console.log(disabledToggle);
+  //console.log(disabledToggle);
   //편집모드
   const [commentUpdate, setCommetUpdate] = useState(comment.comment);
   const [editMode, setEditMode] = useState(false);
@@ -28,7 +28,10 @@ const CommentsCard = ({ comment, param }) => {
 
     const result = window.confirm("이 코멘트를 지울까요?");
     if (result) {
-      return dispatch(__deleteComment(comment.id));
+      console.log(comment);
+      return dispatch(
+        __deleteComment({ commentId: comment.commentId, postId: postId })
+      );
     } else {
       return;
     }
@@ -58,9 +61,9 @@ const CommentsCard = ({ comment, param }) => {
     }
     console.log(comment.id);
     const updateComment = {
-      postId: param,
+      postId: postId,
       comment: commentUpdate,
-      id: comment.id,
+      commentId: comment.commentId,
     };
     dispatch(
       __updateCommentDetail({
@@ -76,7 +79,7 @@ const CommentsCard = ({ comment, param }) => {
         {editMode ? (
           <>
             <CommentsBox token={token}>
-              <div type="text">{comment.id}</div>
+              <div type="text">{comment.commentId}</div>
             </CommentsBox>
             <div>
               <InputUpdateComment
@@ -100,7 +103,7 @@ const CommentsCard = ({ comment, param }) => {
           <>
             <TextBox>
               <CommentsBox token={token}>
-                <div type="text">{comment.id}</div>
+                <div type="text">{comment.commentId}</div>
                 <Comment>{comment.comment}</Comment>
               </CommentsBox>
             </TextBox>
@@ -153,5 +156,7 @@ const Comment = styled.div`
   margin-left: 250px;
 `;
 const InputUpdateComment = styled.input`
-  margin-top: 20px;
+  margin-top: 8px;
 `;
+
+const Next = styled.input``;

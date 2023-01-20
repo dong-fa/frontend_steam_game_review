@@ -49,7 +49,7 @@ const CommentsForm = () => {
     setComment({ comment: "" });
     // console.log("에드코멘트의 값", comment, id);
   };
-
+  console.log(comments);
   //코멘트가 추가될때마다 렌더링 해준다. 해당 게임에 맞는 코멘트를 불러오기위해 아이디값을 넣어준다
   useEffect(() => {
     dispatch(__getComments(postId));
@@ -74,11 +74,14 @@ const CommentsForm = () => {
 
         <CommentBox>
           {/* 서버에서 데이터 불러오는동안 비동기로 처리되기 때문에 배열을 불러올 수 없음 그렇기 때문에 옵셔널 체인링을 사용 */}
-          {comments?.map((comment) => (
-            <CommentsCard key={comment.id} comment={comment} />
+          {comments?.map((comment, index) => (
+            <CommentsCard
+              key={comment.commentId}
+              comment={comment}
+              postId={postId}
+            />
           ))}
         </CommentBox>
-
       </CommentContainer>
     </div>
   );

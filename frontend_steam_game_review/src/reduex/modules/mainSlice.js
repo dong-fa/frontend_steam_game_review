@@ -13,8 +13,8 @@ export const __getGameList = createAsyncThunk(
   "getGameList",
   async (payload, thunkAPI) => {
     try {
-      // const { data } = await axiosInstance.get("/api/post");
-      const { data } = await axios.get("http://localhost:3001/gameList");
+      const { data } = await axiosInstance.get("/api/post");
+      //const { data } = await axios.get("http://localhost:3001/gameList");
       console.log("메인슬라이스 데이터", data);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
